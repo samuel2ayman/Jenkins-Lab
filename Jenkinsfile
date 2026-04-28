@@ -17,17 +17,17 @@ pipeline {
         }
 
         stage('Test') {
-            steps {
-                echo 'Running tests...'
-                sh 'pip3 install pytest --quiet --break-system-packages'
-                sh 'pytest test_analyzer.py -v --junitxml=test-results.xml'
-            }
-            post {
-                always {
-                    junit 'test-results.xml'
-                }
-            }
+    steps {
+        echo 'Running tests...'
+        sh 'pip3 install pytest --quiet --break-system-packages'
+        sh 'python3 -m pytest test_analyzer.py -v --junitxml=test-results.xml'
+    }
+    post {
+        always {
+            junit 'test-results.xml'
         }
+    }
+}
 
         stage('Deploy as Container') {
             steps {
