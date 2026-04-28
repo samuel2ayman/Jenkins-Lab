@@ -12,14 +12,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Installing dependencies...'
-                sh 'pip3 install -r requirements.txt'
+                sh 'pip3 install -r requirements.txt --break-system-packages'
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                sh 'pip3 install pytest --quiet'
+                sh 'pip3 install pytest --quiet --break-system-packages'
                 sh 'pytest test_analyzer.py -v --junitxml=test-results.xml'
             }
             post {
