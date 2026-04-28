@@ -7,6 +7,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY analyzer.py .
 
+RUN mkdir -p /app/output
+
 RUN python analyzer.py --out /app/output/report.html
 
 CMD ["python", "analyzer.py", "--out", "/app/output/report.html"]
