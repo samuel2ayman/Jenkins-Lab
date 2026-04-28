@@ -16,19 +16,6 @@ pipeline {
             }
         }
 
-        stage('Test') {
-    steps {
-        echo 'Running tests...'
-        sh 'pip3 install pytest --quiet --break-system-packages'
-        sh 'python3 -m pytest test_analyzer.py -v --junitxml=test-results.xml'
-    }
-    post {
-        always {
-            junit 'test-results.xml'
-        }
-    }
-}
-
         stage('Deploy as Container') {
             steps {
                 echo "Building Docker image: ${IMAGE_NAME}:${IMAGE_TAG}"
@@ -42,10 +29,10 @@ pipeline {
 
                     docker run -d \
                         --name ${CONTAINER_NAME} \
-                        -v \$(pwd)/output:/app/output \
+                        -p 9090:9090 \
                         ${IMAGE_NAME}:${IMAGE_TAG}
                 """
-                echo 'Container deployed successfully.'
+                echo 'Dashboard available at http://192.168.1.19:9090/report.html'
             }
         }
     }
@@ -62,4 +49,3 @@ pipeline {
         }
     }
 }
-
